@@ -16,10 +16,6 @@ type HomeScreenProps = {
 };
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
-  const handleLogout = () => {
-    navigation.navigate('Login');
-  };
-
   return (
     <View style={styles.container}>
       {/* Abas superiores fixas no topo */}
@@ -38,17 +34,37 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
       <View style={{ height: 60 }} />
       {/* Conteúdo centralizado */}
       <View style={styles.centerContent}>
+
         <Text style={styles.title}>Bem-vindo!</Text>
-        <Text style={styles.subtitle}>Você está logado no sistema</Text>
 
-        <View style={styles.infoContainer}>
-          <Text style={styles.infoText}>Esta é a tela principal do aplicativo.</Text>
-          <Text style={styles.infoText}>Aqui você pode adicionar mais funcionalidades.</Text>
+        <View style={[styles.summaryContainer, { marginTop: 30 }]}>
+          <Text style={styles.summaryTitle}>Resumo das Funcionalidades</Text>
+          
+          <View style={styles.summarySection}>
+            <Text style={styles.summaryHeader}>Exercícios</Text>
+            <Text style={styles.summaryText}>
+              Gerencie seus exercícios físicos diários. Visualize todos os exercícios cadastrados, com destaque para os do dia atual. Adicione novos exercícios preenchendo nome, dias da semana e descrição. Marque os exercícios como completados com um simples toque. Edite ou exclua exercícios conforme necessário. Acompanhe seu progresso diário de forma simples e intuitiva.
+            </Text>
+          </View>
+
+          <View style={styles.separator} />
+
+          <View style={styles.summarySection}>
+            <Text style={styles.summaryHeader}>Vídeos</Text>
+            <Text style={styles.summaryText}>
+              Explore nossa coleção de vídeos em cards organizados. Cada card apresenta uma thumbnail e o nome do vídeo. Clique em qualquer card para assistir ao vídeo no YouTube. Interface limpa e intuitiva para fácil navegação. Acesse todo o conteúdo com apenas um toque.
+            </Text>
+          </View>
+
+          <View style={styles.separator} />
+
+          <View style={styles.summarySection}>
+            <Text style={styles.summaryHeader}>Perfil</Text>
+            <Text style={styles.summaryText}>
+              Acesse e gerencie suas informações pessoais. Visualize e atualize seu nome, email e estado. Faça alterações facilmente através do botão "Atualizar Cadastro". Saia da sua conta quando desejar com o botão "Sair".
+            </Text>
+          </View>
         </View>
-
-        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-          <Text style={styles.logoutButtonText}>Sair</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -58,8 +74,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    paddingTop: 70, // espaço para as abas
-    backgroundColor: '#fff',
+    backgroundColor: '#452b5a',
   },
   tabContainer: {
     position: 'absolute',
@@ -78,7 +93,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 25,
-    backgroundColor: '#2196F3',
+    backgroundColor: '#34b4d3',
     borderRightWidth: 1,
     borderRightColor: '#000',
     borderTopWidth: 1,
@@ -90,11 +105,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
+    fontSize: 28,
+    marginBottom: 5,
+    marginTop: 30,
     textAlign: 'center',
-    marginBottom: 10,
-    color: '#2196F3',
+    fontWeight: 'bold',
+    color: '#90c6e6',
   },
   subtitle: {
     fontSize: 18,
@@ -114,22 +130,59 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
   },
-  logoutButton: {
-    backgroundColor: '#f44336',
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 15,
+  },
+  button: {
+    backgroundColor: '#34b4d3',
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 8,
-    alignSelf: 'center',
+    marginBottom: 15,
   },
-  logoutButtonText: {
+  buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 16,
   },
   centerContent: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  summaryContainer: {
+    marginTop: 30,
+    padding: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 10,
+  },
+  summaryTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#90c6e6',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  summarySection: {
+    marginBottom: 15,
+  },
+  summaryHeader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#34b4d3',
+    marginBottom: 10,
+  },
+  summaryText: {
+    color: '#fff',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#34b4d3',
+    marginVertical: 15,
+    opacity: 0.3,
   },
 });
 

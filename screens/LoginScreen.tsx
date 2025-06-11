@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
 import { api } from '../services/api';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AxiosError } from 'axios';
+import { AuthContext } from '../App';
 
 type RootStackParamList = {
   Login: undefined;
@@ -17,11 +18,15 @@ type LoginScreenProps = {
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const [dados, setDados] = useState({ email: '', password: '' });
+  const { setToken, setPassword } = useContext(AuthContext);
 
   const handleLogin = async () => {
     try {
       const response = await api.post('userauth', dados);
-      console.log(response.data);
+      console.log('Resposta completa do backend:', response.data);
+      console.log('Token recebido:', response.data.token);
+      setToken(response.data.token);
+      setPassword(dados.password);
       Alert.alert(
         'Sucesso',
         'Login realizado com sucesso!',
@@ -59,6 +64,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor="#dbdbdb"
         keyboardType="email-address"
         value={dados.email}
         onChangeText={(text) => setDados({ ...dados, email: text })}
@@ -67,6 +73,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
       <TextInput
         style={styles.input}
         placeholder="Senha"
+        placeholderTextColor="#dbdbdb"
         secureTextEntry
         value={dados.password}
         onChangeText={(text) => setDados({ ...dados, password: text })}
@@ -77,7 +84,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={handleRegister}>
+        <TouchableOpacity style={styles.button} onPress={handleRegister}>
           <Text style={styles.buttonText}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
@@ -97,7 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#452b5a',
   },
   logo: {
     width: 200,
@@ -110,6 +117,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     textAlign: 'center',
     fontWeight: 'bold',
+    color: '#90c6e6',
   },
   input: {
     borderWidth: 1,
@@ -117,6 +125,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 12,
     marginBottom: 15,
+    color: '#fff',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -124,13 +133,10 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   button: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#34b4d3',
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 8,
-  },
-  cancelButton: {
-    backgroundColor: '#f44336',
   },
   buttonText: {
     color: '#fff',

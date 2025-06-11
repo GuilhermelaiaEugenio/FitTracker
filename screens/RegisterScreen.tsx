@@ -103,6 +103,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
       <TextInput
         style={styles.input}
         placeholder="Nome"
+        placeholderTextColor="#dbdbdb"
         value={dados.nome}
         onChangeText={(text) => setDados({ ...dados, nome: text })}
       />
@@ -110,6 +111,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor="#dbdbdb"
         keyboardType="email-address"
         value={dados.email}
         onChangeText={(text) => setDados({ ...dados, email: text })}
@@ -131,6 +133,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
       <TextInput
         style={styles.input}
         placeholder="Senha"
+        placeholderTextColor="#dbdbdb"
         secureTextEntry
         value={dados.password}
         onChangeText={(text) => setDados({ ...dados, password: text })}
@@ -154,13 +157,14 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#452b5a',
   },
   title: {
     fontSize: 28,
     marginBottom: 30,
     textAlign: 'center',
     fontWeight: 'bold',
+    color: '#90c6e6',
   },
   input: {
     borderWidth: 1,
@@ -168,6 +172,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 12,
     marginBottom: 15,
+    color: '#fff',
   },
   pickerContainer: {
     flexDirection: 'row',
@@ -181,10 +186,12 @@ const styles = StyleSheet.create({
   pickerLabel: {
     fontSize: 16,
     marginRight: 10,
+    color: '#fff',
   },
   picker: {
     flex: 1,
     height: 50,
+    color: '#fff',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -192,7 +199,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   button: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#34b4d3',
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 8,
