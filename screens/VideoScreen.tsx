@@ -84,14 +84,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     marginBottom: 30,
-    marginTop: 60,
+    marginTop: 50,
     textAlign: 'center',
     fontWeight: 'bold',
     color: '#90c6e6',
   },
   backButtonContainer: {
     position: 'absolute',
-    top: 20,
+    top: 50,
     left: 20,
     zIndex: 10,
   },

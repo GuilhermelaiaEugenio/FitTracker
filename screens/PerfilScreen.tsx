@@ -64,6 +64,73 @@ const PerfilScreen = ({ navigation }: PerfilScreenProps) => {
     navigation.navigate('Login');
   };
 
+  const handleDeleteAccount = async () => {
+    if (!token) {
+      Alert.alert('Erro', 'Usuário não autenticado');
+      return;
+    }
+
+    try {
+      const decodedToken = jwtDecode<JwtPayload>(token);
+      
+      // Primeira confirmação
+      Alert.alert(
+        'Confirmar Exclusão',
+        'Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.',
+        [
+          {
+            text: 'Cancelar',
+            style: 'cancel'
+          },
+          {
+            text: 'Sim, excluir',
+            onPress: () => {
+              // Segunda confirmação
+              Alert.alert(
+                'Confirmação Final',
+                'Confirme a exclusão da sua conta:',
+                [
+                  {
+                    text: 'Cancelar',
+                    style: 'cancel'
+                  },
+                  {
+                    text: 'Confirmar',
+                    onPress: async () => {
+                      try {
+                        const config = {
+                          headers: {
+                            Authorization: `Bearer ${token}`
+                          },
+                          data: { codcli: decodedToken.idUser }
+                        };
+                        
+                        const response = await api.delete(`/user/${decodedToken.idUser}`, config);
+                        
+                        if (response.status === 200) {
+                          Alert.alert('Sucesso', 'Conta excluída com sucesso!');
+                          setToken(null);
+                          navigation.navigate('Login');
+                        }
+                      } catch (error: any) {
+                        console.error('Erro ao excluir conta:', error);
+                        const errorMessage = error.response?.data?.error || 'Não foi possível excluir a conta';
+                        Alert.alert('Erro', errorMessage);
+                      }
+                    }
+                  }
+                ]
+              );
+            }
+          }
+        ]
+      );
+    } catch (error) {
+      console.error('Erro ao processar exclusão:', error);
+      Alert.alert('Erro', 'Ocorreu um erro ao tentar excluir a conta');
+    }
+  };
+
   const handleUpdate = async () => {
     if (!token) {
       Alert.alert('Erro', 'Usuário não autenticado');
@@ -133,6 +200,9 @@ const PerfilScreen = ({ navigation }: PerfilScreenProps) => {
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, styles.logoutButton]} onPress={handleLogout}>
           <Text style={styles.buttonText}>Sair</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.button, styles.deleteButton]} onPress={handleDeleteAccount}>
+          <Text style={styles.buttonText}>Excluir Conta</Text>
         </TouchableOpacity>
       </View>
 
@@ -213,13 +283,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     marginBottom: 30,
+    marginTop: 50,
     textAlign: 'center',
     fontWeight: 'bold',
     color: '#90c6e6',
   },
   backButtonContainer: {
     position: 'absolute',
-    top: 20,
+    top: 50,
     left: 20,
     zIndex: 10,
   },
@@ -237,6 +308,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
     marginBottom: 30,
+    marginTop: 50,
     alignItems: 'center',
   },
   infoItem: {
@@ -274,6 +346,10 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     backgroundColor: '#f44336',
+  },
+  deleteButton: {
+    backgroundColor: '#ff4444',
+    marginTop: 10,
   },
   buttonText: {
     color: '#fff',
